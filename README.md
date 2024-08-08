@@ -13,7 +13,7 @@ Usage example:
 
 `valbuddy.exe -v -verbose -s "D:\Examples\Library\library_schema.json" "D:\Examples\Library\library.json" "D:\Examples\Library\library_invalid.json"`
 
-Call "valbuddy.exe" without any paramters to get a list of options in the console window.
+Call "valbuddy.exe" without any parameters to get a list of options in the console window.
 
 Validation output:
 ```
@@ -25,4 +25,35 @@ Input location: /bib/book/2
 Schema location: /properties/bib/properties/book/items
 
 Finished processing
+```
+
+# Using the C++ DLL for easy JSON Schema validation
+- Add the jsonvalidator.dll and the .lib and .h files from the dll folder to your project.
+- Don't forget to add the dll to the output folder of your C++ solution.
+
+Example code:
+```
+JSONSchemaSubSchemaResult::JSONSchemaSubSchemaResultsT out_results;
+JSONSchemaValidator* json_validator = NewJSONSchemaValidator();
+
+json_validator->SetJSONSchema("C:\\Users\\Clemens\\Dokumente\\JSONBuddy\\Examples\\Library\\library_schema.json", JSONSchemaValidator::TJSONSchemaSchemaID::k_nJSONSchemaIDDraft202012);
+std::string json_instance = "{\"bib\":{\"book\":[{\"author\":[\"Clemens\",\"Stevens\"],\"publisher\":\"Addison-Wesley\"},{\"title\":1}]}}";
+
+if (json_validator->ValidateJSONDocument(json_instance, 0, out_results))
+{
+    JSONSchemaSubSchemaResult::JSONSchemaSubSchemaResultsItrT find_invalid = std::find_if(out_results.begin(), out_results.end(),
+        [](JSONSchemaSubSchemaResult::JSONSchemaSubSchemaResultsT::value_type& the_result) { return !the_result.m_bValid; });
+
+    if (find_invalid != out_results.end())
+    {
+        std::cout << "The data is invalid.\n";
+        std::cout << "Location: " << find_invalid->m_strJSONPointer << "\n";
+    }
+    else
+        std::cout << "The data is valid.\n";
+}
+else
+    std::cout << "The validation was not executed.\n";
+
+json_validator->Free();
 ```
