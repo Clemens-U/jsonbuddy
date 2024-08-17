@@ -3,7 +3,7 @@
 JSONBuddy also allows users to import CSV text and export JSON to CSV, and it includes an intelligent auto-completion feature that uses JSON schema information. Other features include brace highlighting, JSON pretty-print, and code folding.
 JSONBuddy can be used to create and modify JSON content or JSON Schema files, and it provides a grid style editor that simplifies the creation and editing of JSON text.
 
-# Using the JSON validator command-line tool
+# Using the free JSON validator command-line tool
 - Download your free JSON validator command-line tool for Windows® from this repository.
 - Easy setup. Just run the Windows® installer. No additional configuration required.
 - Use the JSON validator to generate detailed error reports.
