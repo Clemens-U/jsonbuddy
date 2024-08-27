@@ -57,3 +57,7 @@ else
 
 json_validator->Free();
 ```
+
+# C# wrapper nuget package
+Please take a look at the `dotnet wrapper` folder to find more information about the C# wrapper library to access JSON Schema validation and other functionality in your .NET project.
+
