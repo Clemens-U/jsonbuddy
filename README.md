@@ -3,6 +3,9 @@
 JSONBuddy also allows users to import CSV text and export JSON to CSV, and it includes an intelligent auto-completion feature that uses JSON schema information. Other features include brace highlighting, JSON pretty-print, and code folding.
 JSONBuddy can be used to create and modify JSON content or JSON Schema files, and it provides a grid style editor that simplifies the creation and editing of JSON text.
 
+# C# wrapper nuget package
+Please take a look at the `dotnet wrapper` folder to find more information about the C# wrapper library to access JSON Schema validation and other functionality in your .NET project.
+
 # Using the free JSON validator command-line tool
 - Download your free JSON validator command-line tool for Windows® from this repository.
 - Easy setup. Just run the Windows® installer. No additional configuration required.
@@ -58,6 +61,4 @@ else
 json_validator->Free();
 ```
 
-# C# wrapper nuget package
-Please take a look at the `dotnet wrapper` folder to find more information about the C# wrapper library to access JSON Schema validation and other functionality in your .NET project.
 
