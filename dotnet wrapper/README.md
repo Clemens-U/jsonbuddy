@@ -6,13 +6,15 @@ JSONBuddyLibrary
 Overview
 --------
 
-`JSONBuddyLibrary` is a .NET wrapper for the `jsonvalidator.dll`, a powerful native library for validating, minifying, and prettifying JSON data. This package provides a simple and efficient way to leverage advanced JSON validation capabilities in your .NET applications, including schema validation and customizable validation processes with callbacks.
+`JSONBuddyLibrary` is a .NET wrapper for the `jsonvalidator.dll`, a powerful native library for validating, minifying, and prettifying JSON data. This package provides a simple and efficient way to leverage advanced JSON validation capabilities in your .NET applications, including streaming schema validation for huge data and customizable validation processes with callbacks.
 
 Features
 --------
 
 *   **JSON Validation**: Validate JSON documents against various JSON Schema drafts.
+*   **Generate JSON Schema documentation**: Create HTML/SVG documentation from your JSON Schemas.
 *   **Minification and Prettification**: Easily minify or prettify JSON strings.
+*   **JSON Patch**: Apply JSON Patch operations to JSON documents.
 *   **Schema Support**: Supports multiple JSON Schema drafts, including Draft04, Draft06, Draft07, Draft201909, and Draft202012.
 *   **Custom Callbacks**: Define custom callbacks for document loading and validation reporting.
 *   **License Support**: Unlock enhanced functionality with a valid license key.
@@ -121,7 +123,7 @@ The `JSONValidatorWrapper` also provides methods for minifying and prettifying J
 
 ### Advanced Usage with Callbacks
 
-You can define custom callbacks for loading documents and handling validation results:
+You can define custom callbacks for loading documents and handling validation results. Please find below an example of how to use the streaming validation functionality with custom callbacks:
 
     using System;
     using System.Runtime.InteropServices;
@@ -182,9 +184,25 @@ Requirements
 Changelog
 ---------
 
+### Version 1.1.0
+
+*   Added support for JSON Schema documentation and JSONPatch operations.
+
 ### Version 1.0.0
 
 *   Initial release with standard and streaming JSON validation, minification, and prettification functionalities.
+
+Free versus full version
+-------
+
+The following functionality is available in the free version:
+*   JSON Schema validation supporting all schema drafts.
+*   Prettify and minify JSON text. 
+
+The full version includes the following additional features:
+*   Streaming JSON data validation.
+*   JSON Schema documentation generation.
+*   Applying JSONPatch operations.
 
 License
 -------
@@ -198,4 +216,4 @@ a valid license key must be provided. For more details on the licensing terms, p
 Support
 -------
 
-For any issues or questions, please contact us at [office@xml-buddy.com](mailto:office@xml-buddy.com).
+For any issues or questions, please visit the github project pages at [Clemens-U/jsonbuddy](https://github.com/Clemens-U/jsonbuddy) or contact us at [office@xml-buddy.com](mailto:office@xml-buddy.com).
