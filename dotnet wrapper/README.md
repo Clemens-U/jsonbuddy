@@ -36,7 +36,7 @@ You can install the `JSONBuddyLibrary` package using any of the following method
 
 Add the following XML node into your project file to reference the package:
 
-    <PackageReference Include="JSONBuddyLibrary" Version="1.0.0" />
+    <PackageReference Include="JSONBuddyLibrary" Version="1.1.2" />
 
 Usage
 -----
@@ -184,7 +184,7 @@ Requirements
 Changelog
 ---------
 
-### Version 1.1.0
+### Version 1.1.2
 
 *   Added support for JSON Schema documentation and JSONPatch operations.
 
