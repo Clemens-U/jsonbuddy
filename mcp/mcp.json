@@ -28,6 +28,40 @@
   "rate_limit": {
     "requests_per_minute": 100
   },
+  "commands": [
+    {
+      "name": "Validate JSON (Simple)",
+      "description": "Validate a JSON document against a JSON Schema string using the /validate-simple endpoint.",
+      "method": "POST",
+      "path": "/validator/validate-simple",
+      "params": {
+        "schema": {
+          "type": "string",
+          "description": "The JSON Schema as JSON escaped string to validate against."
+        },
+        "data": {
+          "type": "string",
+          "description": "The document as JSON escaped string to validate."
+        }
+      }
+    },
+    {
+      "name": "Validate JSON (Advanced)",
+      "description": "Validate a JSON document using the /validate endpoint, supporting schema pools and structured JSON input.",
+      "method": "POST",
+      "path": "/validator/validate",
+      "params": {
+        "schema": {
+          "type": "array",
+          "description": "An array of JSON Schema documents to validate against."
+        },
+        "data": {
+          "type": "object",
+          "description": "The JSON data object to validate."
+        }
+      }
+    }
+  ],
   "endpoints": [
     {
       "method": "POST",
