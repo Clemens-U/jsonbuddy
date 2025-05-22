@@ -1,0 +1,43 @@
+{
+  "id": "jsonbuddy-core-api",
+  "version": "1.0.0",
+  "name": "JSONBuddy Core API",
+  "description": "Validates JSON data against schemas via a powerful API with high accuracy and speed.",
+  "tags": [ "json", "validation", "schema", "api" ],
+  "icon": "https://www.json-buddy.com/images-jsonbuddy/jsonbuddy_logo_128.png",
+  "developer": {
+    "name": "JSONBuddy",
+    "url": "https://www.json-buddy.com"
+  },
+  "legal": {
+    "terms_of_use_url": "https://www.json-buddy.com/legal/api/core-api-terms-of-use.html",
+    "privacy_policy_url": "https://www.json-buddy.com/legal/api/core-api-privacy-policy.html"
+  },
+  "contact": {
+    "email": "office@appsystems.at"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://api.json-buddy.com/swagger/v1/swagger.json",
+    "auth": {
+      "type": "api_key",
+      "in": "header",
+      "name": "X-Api-Key"
+    }
+  },
+  "rate_limit": {
+    "requests_per_minute": 100
+  },
+  "endpoints": [
+    {
+      "method": "POST",
+      "path": "/validator/validate",
+      "description": "Validates JSON data against a provided schema or schema pool."
+    },
+    {
+      "method": "POST",
+      "path": "/validator/validate-simple",
+      "description": "Validates JSON data against a single schema string."
+    }
+  ]
+}
