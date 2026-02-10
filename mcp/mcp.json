@@ -1,77 +1,98 @@
 {
-  "id": "jsonbuddy-core-api",
-  "version": "1.0.0",
-  "name": "JSONBuddy Core API",
-  "description": "Validates JSON data against schemas via a powerful API with high accuracy and speed.",
-  "tags": [ "json", "validation", "schema", "api" ],
-  "icon": "https://www.json-buddy.com/images-jsonbuddy/jsonbuddy_logo_128.png",
-  "developer": {
-    "name": "JSONBuddy",
-    "url": "https://www.json-buddy.com"
-  },
-  "legal": {
-    "terms_of_use_url": "https://www.json-buddy.com/legal/api/core-api-terms-of-use.html",
-    "privacy_policy_url": "https://www.json-buddy.com/legal/api/core-api-privacy-policy.html"
-  },
-  "contact": {
-    "email": "office@appsystems.at"
-  },
-  "api": {
-    "type": "openapi",
-    "url": "https://api.json-buddy.com/swagger/v1/swagger.json",
-    "auth": {
-      "type": "api_key",
-      "in": "header",
-      "name": "X-Api-Key"
-    }
-  },
-  "rate_limit": {
-    "requests_per_minute": 100
-  },
-  "commands": [
-    {
-      "name": "Validate JSON (Simple)",
-      "description": "Validate a JSON document against a JSON Schema string using the /validate-simple endpoint.",
-      "method": "POST",
-      "path": "/validator/validate-simple",
-      "params": {
-        "schema": {
-          "type": "string",
-          "description": "The JSON Schema as JSON escaped string to validate against."
-        },
-        "data": {
-          "type": "string",
-          "description": "The document as JSON escaped string to validate."
-        }
-      }
-    },
-    {
-      "name": "Validate JSON (Advanced)",
-      "description": "Validate a JSON document using the /validate endpoint, supporting schema pools and structured JSON input.",
-      "method": "POST",
-      "path": "/validator/validate",
-      "params": {
-        "schema": {
-          "type": "array",
-          "description": "An array of JSON Schema documents to validate against."
-        },
-        "data": {
-          "type": "object",
-          "description": "The JSON data object to validate."
-        }
-      }
-    }
-  ],
-  "endpoints": [
-    {
-      "method": "POST",
-      "path": "/validator/validate",
-      "description": "Validates JSON data against a provided schema or schema pool."
-    },
-    {
-      "method": "POST",
-      "path": "/validator/validate-simple",
-      "description": "Validates JSON data against a single schema string."
-    }
-  ]
+	"id": "jsonbuddy-core-api",
+	"version": "1.1.0",
+	"name": "JSONBuddy Core API",
+	"description": "Provides JSON validation, JSON Schema validation, and JSON Schema documentation generation via a high-performance API.",
+	"tags": [ "json", "validation", "schema", "api" ],
+	"icon": "https://www.json-buddy.com/images-jsonbuddy/jsonbuddy_logo_128.png",
+	"developer": {
+		"name": "JSONBuddy",
+		"url": "https://www.json-buddy.com"
+	},
+	"legal": {
+		"terms_of_use_url": "https://www.json-buddy.com/legal/api/core-api-terms-of-use.html",
+		"privacy_policy_url": "https://www.json-buddy.com/legal/api/core-api-privacy-policy.html"
+	},
+	"contact": {
+		"email": "office@appsystems.at"
+	},
+	"api": {
+		"type": "openapi",
+		"url": "https://api.json-buddy.com/swagger/v1/swagger.json",
+		"auth": {
+			"type": "api_key",
+			"in": "header",
+			"name": "X-Api-Key"
+		}
+	},
+	"rate_limit": {
+		"requests_per_minute": 100
+	},
+	"commands": [
+		{
+			"name": "Validate JSON (Simple)",
+			"description": "Validate a JSON document against a JSON Schema string using the /validate-simple endpoint.",
+			"method": "POST",
+			"path": "/validator/validate-simple",
+			"params": {
+				"schema": {
+					"type": "string",
+					"description": "The JSON Schema as JSON escaped string to validate against."
+				},
+				"data": {
+					"type": "string",
+					"description": "The document as JSON escaped string to validate."
+				}
+			}
+		},
+		{
+			"name": "Validate JSON (Advanced)",
+			"description": "Validate a JSON document using the /validate endpoint, supporting schema pools and structured JSON input.",
+			"method": "POST",
+			"path": "/validator/validate",
+			"params": {
+				"schema": {
+					"type": "array",
+					"description": "An array of JSON Schema documents to validate against."
+				},
+				"data": {
+					"type": "object",
+					"description": "The JSON data object to validate."
+				}
+			}
+		},
+		{
+			"name": "Generate JSON Schema Documentation",
+			"description": "Generate HTML/SVG documentation from a JSON Schema using the /schematools/generate-documentation endpoint.",
+			"method": "POST",
+			"path": "/schematools/generate-documentation",
+			"params": {
+				"schema": {
+					"type": "string",
+					"description": "The JSON Schema as JSON or JSON escaped string."
+				},
+				"format": {
+					"type": "string",
+					"description": "Output format of the documentation (e.g. html, svg)."
+				}
+			}
+		}
+	],
+	"endpoints": [
+		{
+			"method": "POST",
+			"path": "/validator/validate",
+			"description": "Validates JSON data against a provided schema or schema pool."
+		},
+		{
+			"method": "POST",
+			"path": "/validator/validate-simple",
+			"description": "Validates JSON data against a single schema string."
+		},
+		{
+			"method": "POST",
+			"path": "/schematools/generate-documentation",
+			"description": "Generates HTML or SVG documentation from a JSON Schema."
+		}
+	]
 }
