@@ -5,7 +5,7 @@ JSONBuddy can be used to create and modify JSON content or JSON Schema files, an
 
 # JSONBuddy Core API MCP Server
 
-This project provides an MCP-compatible interface for the [JSONBuddy Core API](https://www.json-buddy.com), enabling JSON validation against schemas via a secure and high-performance HTTP-based service. The server exposes two endpoints (`/validator/validate` and `/validator/validate-simple`) for flexible schema validation scenarios. MCP clients and AI agents can integrate this API using the included `mcp.json` definition and standard API key authentication.
+This project provides an MCP-compatible interface for the [JSONBuddy Core API](https://www.json-buddy.com), enabling JSON validation against schemas and generating schema documentation (HTML) via a secure and high-performance HTTP-based service. The server exposes two endpoints (`/validator/validate` and `/validator/validate-simple`) for flexible schema validation scenarios. MCP clients and AI agents can integrate this API using the included `mcp.json` definition and standard API key authentication.
 
 # C# wrapper nuget package
 Please take a look at the `dotnet wrapper` folder to find more information about the C# wrapper library to access JSON Schema validation and other functionality in your .NET project.
