@@ -3,12 +3,30 @@
 JSONBuddy also allows users to import CSV text and export JSON to CSV, and it includes an intelligent auto-completion feature that uses JSON schema information. Other features include brace highlighting, JSON pretty-print, and code folding.
 JSONBuddy can be used to create and modify JSON content or JSON Schema files, and it provides a grid style editor that simplifies the creation and editing of JSON text.
 
-# JSONBuddy Core API MCP Server
+# Using the Codex skill
+The ValBuddy Codex skill is available in this repository at `skills/valbuddy-cli`.
+Use this skill to run common ValBuddy CLI workflows from Codex, including JSON schema validation, XML/XSD validation, well-formedness checks, and JSON formatting tasks (pretty-print/minify) with consistent command patterns.
 
-This project provides an MCP-compatible interface for the [JSONBuddy Core API](https://www.json-buddy.com), enabling JSON validation against schemas and generating schema documentation (HTML) via a secure and high-performance HTTP-based service. The server exposes two endpoints (`/validator/validate` and `/validator/validate-simple`) for flexible schema validation scenarios. MCP clients and AI agents can integrate this API using the included `mcp.json` definition and standard API key authentication.
+## Install in Codex
 
-# C# wrapper nuget package
-Please take a look at the `dotnet wrapper` folder to find more information about the C# wrapper library to access JSON Schema validation and other functionality in your .NET project.
+Use the built-in `skill-installer` to install directly from this GitHub repo/path:
+
+```powershell
+python "$env:CODEX_HOME\skills\.system\skill-installer\scripts\install-skill-from-github.py" --repo Clemens-U/jsonbuddy --path skills/valbuddy-cli
+```
+
+Usage examples:
+```powershell
+./scripts/validate-json.ps1 -SchemaPath "D:\Schemas\library_schema.json" -InputFiles "D:\Data\library.json" -VerboseOutput
+```
+
+```powershell
+./scripts/validate-xml.ps1 -SchemaPath "D:\Schemas\invoice.xsd" -InputFiles "D:\Data\invoice.xml"
+```
+
+```powershell
+./scripts/format-json.ps1 -Mode pretty -InputJson "D:\Data\raw.json" -OutputJson "D:\Output\pretty.json"
+```
 
 # Using the free JSON validator command-line tool
 - Download your free JSON validator command-line tool for Windows® from this repository.
@@ -33,6 +51,12 @@ Schema location: /properties/bib/properties/book/items
 
 Finished processing
 ```
+# JSONBuddy Core API MCP Server
+
+This project provides an MCP-compatible interface for the [JSONBuddy Core API](https://www.json-buddy.com), enabling JSON validation against schemas and generating schema documentation (HTML) via a secure and high-performance HTTP-based service. The server exposes two endpoints (`/validator/validate` and `/validator/validate-simple`) for flexible schema validation scenarios. MCP clients and AI agents can integrate this API using the included `mcp.json` definition and standard API key authentication.
+
+# C# wrapper nuget package
+Please take a look at the `dotnet wrapper` folder to find more information about the C# wrapper library to access JSON Schema validation and other functionality in your .NET project.
 
 # Using the C++ DLL for easy JSON Schema validation
 - Add the jsonvalidator.dll and the .lib and .h files from the dll folder to your project.
