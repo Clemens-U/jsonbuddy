@@ -1,5 +1,11 @@
 ﻿# Agent Recipes
 
+First, configure the CLI path on the target system. For example, if JSONBuddy is installed at `Z:\Software\JSONBuddy`:
+
+```powershell
+$env:VALBUDDY_EXE="Z:\Software\JSONBuddy\valbuddy.exe"
+```
+
 ## Validate JSON against schema
 
 ```powershell

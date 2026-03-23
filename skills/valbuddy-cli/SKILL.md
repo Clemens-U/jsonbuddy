@@ -10,10 +10,11 @@ Use this skill to run `valbuddy.exe` reliably from Codex for validation and auto
 ## Quick Start
 
 1. Confirm `valbuddy.exe` location.
-2. Choose the correct mode from `references/cli-reference.md`.
-3. Use scripts in `scripts/` instead of rebuilding command strings each time.
-4. Treat exit code `0` as success and any non-zero as failure.
-5. For `-s` in `-v/-wf` mode, pass schema path first, then input files.
+2. Set the executable path on the target system, for example `VALBUDDY_EXE=Z:\Software\valbuddy.exe`.
+3. Choose the correct mode from `references/cli-reference.md`.
+4. Use scripts in `scripts/` instead of rebuilding command strings each time.
+5. Treat exit code `0` as success and any non-zero as failure.
+6. For `-s` in `-v/-wf` mode, pass schema path first, then input files.
 
 ## Resolve Tool Path
 
@@ -43,7 +44,7 @@ Prefer this order:
 
 - Contract baseline: `references/cli-reference.md`
 - Agent recipes: `references/agent-recipes.md`
-- Source contract used to build this skill: `../../valbuddy-cli-contract-v1.md`
+- Source contract used to build this skill: `references/valbuddy-cli-contract-v1.md`
 
 ## Guardrails
 

@@ -7,6 +7,11 @@ JSONBuddy can be used to create and modify JSON content or JSON Schema files, an
 The ValBuddy Codex skill is available in this repository at `skills/valbuddy-cli`.
 Use this skill to run common ValBuddy CLI workflows from Codex, including JSON schema validation, XML/XSD validation, well-formedness checks, and JSON formatting tasks (pretty-print/minify) with consistent command patterns.
 
+Skill entry points:
+- `skills/valbuddy-cli/SKILL.md`
+- `skills/valbuddy-cli/references/agent-recipes.md`
+- `skills/valbuddy-cli/references/cli-reference.md`
+
 ## Install in Codex
 
 Use the built-in `skill-installer` to install directly from this GitHub repo/path:
@@ -14,6 +19,26 @@ Use the built-in `skill-installer` to install directly from this GitHub repo/pat
 ```powershell
 python "$env:CODEX_HOME\skills\.system\skill-installer\scripts\install-skill-from-github.py" --repo Clemens-U/jsonbuddy --path skills/valbuddy-cli
 ```
+
+Set the ValBuddy executable path on the target system before running scripts. For example, if JSONBuddy is installed at `Z:\Software\JSONBuddy`:
+
+```powershell
+$env:VALBUDDY_EXE="Z:\Software\JSONBuddy\valbuddy.exe"
+```
+
+Example for Windows `cmd.exe`:
+
+```bat
+set VALBUDDY_EXE=Z:\Software\JSONBuddy\valbuddy.exe
+```
+
+Compatibility:
+- Windows
+- Contract-aligned with `valbuddy.exe` help output
+
+License notes:
+- Free-license restrictions apply to `<settings-xml>`, `-patch`, `-jsl`, `-jspp`, `-jst`, and `-j2csv`.
+- `-jsv` requires a JSONBuddy Large Data license.
 
 Usage examples:
 ```powershell
