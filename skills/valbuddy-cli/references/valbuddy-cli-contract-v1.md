@@ -1,11 +1,11 @@
 ﻿# ValBuddy CLI Contract v1
 
 Status: Approved
-Version: 1.0.1
-Effective date: 2026-03-12
+Version: 1.1.0
+Effective date: 2026-08-19
 Executable: `valbuddy.exe`
 Products: XML ValidatorBuddy, JSONBuddy
-Validated against: `valbuddy.exe` help text (Version 7.4, copyright 2023)
+Validated against: `ValBuddyConsoleApp.cpp` command-line implementation and `valbuddy.exe` help text
 
 ## 1. Purpose
 
@@ -24,6 +24,7 @@ Website copy, help text, and marketing pages must not contradict this contract.
 This contract covers:
 
 - XML and JSON validation modes
+- JSON Schema documentation generation
 - JSON utility and automation modes
 - settings-XML batch execution mode
 - return-code semantics
@@ -39,6 +40,7 @@ valbuddy.exe [-v | -wf [-verbose] [-s] <file 1> ... <file n>]
  | [<settings-xml>]
  | -patch <patches.json> <file 1> ... <file n>
  | -jsl [-ox <output.xml> | -oj <output.json>] <json-schema.json>
+ | -jsdoc -o <output.html> <json-schema.json>
  | -jspp [-oj <output.json>] <json-input.json>
  | -jsm [-oj <output.json>] <json-input.json>
  | -jst <Name of JSON Schema test>
@@ -76,6 +78,12 @@ Starting `valbuddy.exe` with no arguments SHALL print usage/options text.
 - `-jsl [-ox <output.xml> | -oj <output.json>] <json-schema.json>`
   - Apply JSON Schema linter.
   - Not available with free license.
+- `-jsdoc -o <output.html> <json-schema.json>`
+  - Generate self-contained HTML documentation from a local JSON Schema.
+  - The output path is required and must use the `.html` or `.htm` extension.
+  - HTTP and HTTPS schema inputs are not supported.
+  - Input and output must resolve to different files.
+  - In the free version after the evaluation period, the input schema must be smaller than 50 KB.
 - `-jspp [-oj <output.json>] <json-input.json>`
   - Pretty-print JSON input of any size.
   - If no output path is set, input is overwritten.
@@ -98,7 +106,7 @@ Starting `valbuddy.exe` with no arguments SHALL print usage/options text.
 - `-oj <output.json>`: Write JSON output.
 - `-ox <output.xml>`: Write XML output.
 - `-config <configuration.json>`: Provide JSON-to-CSV conversion configuration.
-- `-o <output.csv>`: Provide CSV output path for `-j2csv`.
+- `-o <output>`: Provide the HTML output path for `-jsdoc` or CSV output path for `-j2csv`.
 
 ## 5. Argument and Parsing Rules
 
@@ -118,6 +126,15 @@ Starting `valbuddy.exe` with no arguments SHALL print usage/options text.
 
 Additional non-zero codes MAY exist for runtime/license/usage failures.
 For automation compatibility, callers MUST treat any non-zero code as failure.
+
+The `-jsdoc` mode additionally defines:
+
+- `2`: Invalid arguments, output extension, remote input, or input/output path combination.
+- `9`: Free-version schema-size limit exceeded.
+- `701`: Input file access or load failure.
+- `702`: JSON Schema parse failure.
+- `703`: Documentation generation did not produce valid UTF-8.
+- `704`: Output write failure.
 
 ## 7. Standard Output and Error Behavior
 
@@ -142,6 +159,10 @@ Not available with free license:
 Large Data license required:
 
 - `-jsv`
+
+Free-version size limit:
+
+- `-jsdoc` accepts schemas smaller than 50 KB after the evaluation period has ended.
 
 If entitlement is missing, command SHALL fail with non-zero exit code and clear message.
 
@@ -168,7 +189,7 @@ Each release SHALL run smoke tests for:
 - `-v` success/failure
 - `-wf` success/failure
 - `-s` schema-path behavior in `-v/-wf` flow
-- `-patch`, `-jsl`, `-jspp`, `-jsm`, `-jst`, `-jsv`, `-j2csv`
+- `-patch`, `-jsl`, `-jsdoc`, `-jspp`, `-jsm`, `-jst`, `-jsv`, `-j2csv`
 - `<settings-xml>` batch execution
 - unknown option usage error
 - exit code assertions (`0`, `-1`, and generic non-zero failures)
@@ -181,6 +202,10 @@ valbuddy.exe -v -verbose -s "D:\Examples\Library\library_schema.json" "D:\Exampl
 
 ```bat
 valbuddy.exe -jspp -oj "D:\Output\pretty.json" "D:\Data\raw.json"
+```
+
+```bat
+valbuddy.exe -jsdoc -o "D:\Documentation\schema.html" "D:\Schemas\schema.json"
 ```
 
 ```bat

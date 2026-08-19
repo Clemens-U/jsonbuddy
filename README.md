@@ -3,16 +3,38 @@
 JSONBuddy also allows users to import CSV text and export JSON to CSV, and it includes an intelligent auto-completion feature that uses JSON schema information. Other features include brace highlighting, JSON pretty-print, and code folding.
 JSONBuddy can be used to create and modify JSON content or JSON Schema files, and it provides a grid style editor that simplifies the creation and editing of JSON text.
 
-# Using the Codex skill
-The ValBuddy Codex skill is available in this repository at `skills/valbuddy-cli`.
-Use this skill to run common ValBuddy CLI workflows from Codex, including JSON schema validation, XML/XSD validation, well-formedness checks, and JSON formatting tasks (pretty-print/minify) with consistent command patterns.
+# Using the ValBuddy CLI agent skill
+
+The Agent Plugin in this repository packages the `valbuddy-cli` skill for AI coding agents. It provides consistent command-line workflows for JSON Schema validation, XML/XSD validation, well-formedness checks, JSON formatting, and self-contained HTML documentation generation from JSON Schema.
 
 Skill entry points:
+
 - `skills/valbuddy-cli/SKILL.md`
 - `skills/valbuddy-cli/references/agent-recipes.md`
 - `skills/valbuddy-cli/references/cli-reference.md`
 
-## Install in Codex
+## Prerequisites
+
+- Windows
+- A separately installed copy of [JSONBuddy](https://www.json-buddy.com/) or XML ValidatorBuddy that provides `valbuddy.exe`
+
+The Agent Plugin does not include `valbuddy.exe`. The plugin files are MIT-licensed; JSONBuddy, XML ValidatorBuddy, and `valbuddy.exe` remain separately licensed software.
+
+## Use with GitHub Copilot
+
+For local testing from the repository root:
+
+```powershell
+copilot --plugin-dir .
+```
+
+After the plugin is accepted into the Awesome Copilot marketplace, install it with:
+
+```powershell
+copilot plugin install jsonbuddy@awesome-copilot
+```
+
+## Install as a standalone Codex skill
 
 Use the built-in `skill-installer` to install directly from this GitHub repo/path:
 
@@ -32,15 +54,16 @@ Example for Windows `cmd.exe`:
 set VALBUDDY_EXE=Z:\Software\JSONBuddy\valbuddy.exe
 ```
 
-Compatibility:
-- Windows
-- Contract-aligned with `valbuddy.exe` help output
+The skill is contract-aligned with the `valbuddy.exe` command-line interface.
 
 License notes:
+
 - Free-license restrictions apply to `<settings-xml>`, `-patch`, `-jsl`, `-jspp`, `-jst`, and `-j2csv`.
+- JSON Schema documentation generation with `-jsdoc` is limited to schemas smaller than 50 KB in the free version after the evaluation period.
 - `-jsv` requires a JSONBuddy Large Data license.
 
 Usage examples:
+
 ```powershell
 ./scripts/validate-json.ps1 -SchemaPath "D:\Schemas\library_schema.json" -InputFiles "D:\Data\library.json" -VerboseOutput
 ```
@@ -51,6 +74,10 @@ Usage examples:
 
 ```powershell
 ./scripts/format-json.ps1 -Mode pretty -InputJson "D:\Data\raw.json" -OutputJson "D:\Output\pretty.json"
+```
+
+```powershell
+./scripts/generate-schema-docs.ps1 -SchemaPath "D:\Schemas\library_schema.json" -OutputHtml "D:\Documentation\library_schema.html"
 ```
 
 # Using the free JSON validator command-line tool
