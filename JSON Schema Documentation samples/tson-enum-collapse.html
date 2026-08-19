@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>SVG enum toggle (debug)</title>
+    <style>
+      /* purely visual cue */
+      g[data-enum-header] { cursor: pointer; }
+      g[data-enum-header] text, g[data-enum-header] rect { user-select: none; }
+    </style>
+  </head>
+  <body>
+    <svg xmlns="http://www.w3.org/2000/svg" width="800" height="260" viewBox="0 0 800 260">
+      <!-- container -->
+      <rect x="20" y="20" width="360" height="120" fill="rgb(220,238,255)"/>
+      <rect x="20" y="20" width="360" height="120" fill="none" stroke="rgb(120,120,120)" stroke-width="1" stroke-dasharray="2,2"/>
+
+      <!-- header: id ends with /enum (key requirement) -->
+      <g id="/defs/example/enum" role="button" tabindex="0" aria-expanded="true" data-enum-header>
+        <rect x="20" y="20" width="360" height="20" fill="rgb(180,200,245)"/>
+        <line x1="380" y1="21" x2="380" y2="40" stroke="rgb(180,180,180)" stroke-width="1"/>
+        <text class="toggle-icon" x="10"  y="35" font-size="14">▾</text>
+        <text x="24" y="35" font-size="14">enum</text>
+        <text x="360" y="35" font-size="14" text-anchor="end">3</text>
+        <rect x="20" y="20" width="360" height="20" fill="transparent"/>
+      </g>
+
+      <!-- items: ids start with header id + '/' -->
+      <g id="/defs/example/enum/0"><text x="30" y="60" font-size="14">alpha</text></g>
+      <g id="/defs/example/enum/1"><text x="30" y="80" font-size="14">beta</text></g>
+      <g id="/defs/example/enum/2"><text x="30" y="100" font-size="14">gamma</text></g>
+
+      <!-- a second enum to prove multi-enum -->
+      <rect x="420" y="20" width="360" height="100" fill="rgb(220,238,255)"/>
+      <rect x="420" y="20" width="360" height="100" fill="none" stroke="rgb(120,120,120)" stroke-width="1" stroke-dasharray="2,2"/>
+      <g id="/foo/bar/enum" role="button" tabindex="0" aria-expanded="false" data-enum-header>
+        <rect x="420" y="20" width="360" height="20" fill="rgb(180,200,245)"/>
+        <text class="toggle-icon" x="410" y="35" font-size="14">▸</text>
+        <text x="424" y="35" font-size="14">enum</text>
+        <rect x="420" y="20" width="360" height="20" fill="transparent"/>
+      </g>
+      <g id="/foo/bar/enum/0"><text x="430" y="60" font-size="14">delta</text></g>
+      <g id="/foo/bar/enum/1"><text x="430" y="80" font-size="14">epsilon</text></g>
+    </svg>
+
+<script type="application/javascript">
+(function () {
+  // Config: extra space below last item inside the box (set to 0 for snug fit)
+  var BOTTOM_PADDING = 2;
+
+  function endsWithEnum(id) { return typeof id === "string" && id.slice(-5) === "/enum"; }
+  function asNum(v) { return typeof v === "number" ? v : parseFloat(v || "0"); }
+
+  function getItemsFor(svgRoot, headerId) {
+    var prefix = headerId + "/";
+    return Array.prototype.filter.call(svgRoot.querySelectorAll("g[id]"), function (g) {
+      return g.id && g.id.indexOf(prefix) === 0;
+    });
+  }
+
+  // Pick the smallest-height <rect> inside the header group as the header bar
+  function getHeaderBarRect(header) {
+    var rects = header.querySelectorAll("rect");
+    if (!rects.length) return null;
+    var arr = Array.prototype.slice.call(rects);
+    arr.sort(function(a,b){ return asNum(a.getAttribute("height")) - asNum(b.getAttribute("height")); });
+    return arr[0] || null;
+  }
+
+  // Outer container rects: same x,y,width as header bar, taller than header bar
+  function getContainerRects(svgRoot, headerBarRect) {
+    if (!headerBarRect) return [];
+    var hx = headerBarRect.getAttribute("x");
+    var hy = headerBarRect.getAttribute("y");
+    var hw = headerBarRect.getAttribute("width");
+    var hh = asNum(headerBarRect.getAttribute("height"));
+    return Array.prototype.filter.call(svgRoot.querySelectorAll("rect"), function(r){
+      var x = r.getAttribute("x");
+      var y = r.getAttribute("y");
+      var w = r.getAttribute("width");
+      var h = asNum(r.getAttribute("height"));
+      return x === hx && y === hy && w === hw && h > hh;
+    });
+  }
+
+  // Compute bottom of all items; if hidden, temporarily show to measure
+  function computeItemsBottom(items) {
+    if (!items.length) return null;
+
+    // Remember original display states
+    var prev = items.map(function(g){ return g.style.display; });
+
+    // Ensure measurable
+    items.forEach(function(g){ if (g.style.display === "none") g.style.display = "block"; });
+
+    // Measure
+    var bottoms = items.map(function(g){
+      try { var bb = g.getBBox(); return bb.y + bb.height; }
+      catch (e) { return 0; }
+    });
+    var maxBottom = Math.max.apply(Math, bottoms);
+
+    // Restore previous display
+    items.forEach(function(g, i){ g.style.display = prev[i]; });
+
+    return maxBottom;
+  }
+
+  function wireHeader(svgRoot, header) {
+    var headerId = header.id;
+    var items = getItemsFor(svgRoot, headerId);
+
+    var headerBar = getHeaderBarRect(header);
+    var containerRects = getContainerRects(svgRoot, headerBar);
+
+    var hy = headerBar ? asNum(headerBar.getAttribute("y")) : 0;
+    var headerHeight = headerBar ? asNum(headerBar.getAttribute("height")) : 20;
+
+    // Start state
+    var icon  = header.querySelector(".toggle-icon");
+    var expanded = header.getAttribute("aria-expanded") !== "false";
+
+    function setContainersHeight(px) {
+      containerRects.forEach(function(r){ r.setAttribute("height", String(px)); });
+    }
+
+    function expandedHeight() {
+      var bottom = computeItemsBottom(items);
+      if (bottom == null) return headerHeight;
+      var needed = Math.max(0, bottom - hy) + BOTTOM_PADDING;
+      // Fit exactly to content: do NOT clamp to any original height
+      return Math.max(headerHeight, needed);
+    }
+
+    function setState(next) {
+      expanded = next;
+      header.setAttribute("aria-expanded", String(next));
+
+      // Show/hide items
+      items.forEach(function(g){ g.style.display = next ? "block" : "none"; });
+
+      // Update icon
+      if (icon) icon.textContent = next ? "▾" : "▸";
+
+      // Resize containers to fit exactly (no extra space)
+      if (containerRects.length) {
+        if (next) {
+          setContainersHeight(expandedHeight());
+        } else {
+          setContainersHeight(headerHeight);
+        }
+      }
+    }
+
+    header.addEventListener("click", function () { setState(!expanded); });
+    header.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setState(!expanded); }
+      else if (e.key === "ArrowRight") setState(true);
+      else if (e.key === "ArrowLeft")  setState(false);
+    });
+
+    // Initialize
+    setState(expanded);
+  }
+
+  function initOn(svgRoot) {
+    if (!svgRoot) return;
+    var headers = Array.prototype.filter.call(svgRoot.querySelectorAll("g[id]"), function (g) { return endsWithEnum(g.id); });
+    headers.forEach(function(h){ wireHeader(svgRoot, h); });
+  }
+
+  function initAllInline() {
+    var svgs = document.querySelectorAll("svg");
+    Array.prototype.forEach.call(svgs, initOn);
+  }
+
+  if (document.readyState === "complete" || document.readyState === "interactive") {
+    requestAnimationFrame(initAllInline);
+  } else {
+    document.addEventListener("DOMContentLoaded", function(){ requestAnimationFrame(initAllInline); });
+    window.addEventListener("load", initAllInline);
+  }
+})();
+</script>
+
+  </body>
+</html>
