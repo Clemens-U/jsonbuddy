@@ -1,6 +1,6 @@
-# JSONBuddy Agent Plugin License
+# ValBuddy CLI Agent Plugin License
 
-The JSONBuddy Agent Plugin consists of:
+The ValBuddy CLI Agent Plugin consists of:
 
 - `/plugin.json`
 - `/skills/valbuddy-cli/**`
@@ -15,7 +15,7 @@ In particular, JSONBuddy, XML ValidatorBuddy, `valbuddy.exe`, and other
 appsystems software are proprietary software and are not licensed under
 the MIT License.
 
-The JSONBuddy Agent Plugin does not include `valbuddy.exe`. Use of
+The ValBuddy CLI Agent Plugin does not include `valbuddy.exe`. Use of
 `valbuddy.exe` requires a separately installed copy of JSONBuddy or
 XML ValidatorBuddy and is governed by the applicable product license.
 

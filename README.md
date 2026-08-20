@@ -5,7 +5,7 @@ JSONBuddy can be used to create and modify JSON content or JSON Schema files, an
 
 # Using the ValBuddy CLI agent skill
 
-The Agent Plugin in this repository packages the `valbuddy-cli` skill for AI coding agents. It provides consistent command-line workflows for JSON Schema validation, XML/XSD validation, well-formedness checks, JSON formatting, and self-contained HTML documentation generation from JSON Schema.
+The ValBuddy CLI Agent Plugin in this repository packages the `valbuddy-cli` skill for AI coding agents. It provides consistent command-line workflows for JSON Schema validation, XML/XSD validation, well-formedness checks, JSON formatting, and self-contained HTML documentation generation from JSON Schema.
 
 Skill entry points:
 
@@ -18,7 +18,7 @@ Skill entry points:
 - Windows
 - A separately installed copy of [JSONBuddy](https://www.json-buddy.com/) or XML ValidatorBuddy that provides `valbuddy.exe`
 
-The Agent Plugin does not include `valbuddy.exe`. The plugin files are MIT-licensed; JSONBuddy, XML ValidatorBuddy, and `valbuddy.exe` remain separately licensed software.
+The ValBuddy CLI Agent Plugin does not include `valbuddy.exe`. The plugin files are MIT-licensed; JSONBuddy, XML ValidatorBuddy, and `valbuddy.exe` remain separately licensed software.
 
 ## Use with GitHub Copilot
 
@@ -31,7 +31,7 @@ copilot --plugin-dir .
 After the plugin is accepted into the Awesome Copilot marketplace, install it with:
 
 ```powershell
-copilot plugin install jsonbuddy@awesome-copilot
+copilot plugin install valbuddy-cli@awesome-copilot
 ```
 
 ## Install as a standalone Codex skill

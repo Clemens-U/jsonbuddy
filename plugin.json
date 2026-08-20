@@ -1,6 +1,6 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
-  "name": "jsonbuddy",
+  "name": "valbuddy-cli",
   "description": "Deterministic JSON, JSON Schema, and XML validation plus self-contained JSON Schema HTML documentation for AI coding agents using the JSONBuddy and XML ValidatorBuddy command-line validator.",
   "version": "1.0.0",
   "author": {
