@@ -6,6 +6,7 @@ param(
     [string]$SchemaPath,
     [switch]$WellFormedOnly,
     [switch]$VerboseOutput,
+    [switch]$Offline,
     [string]$ValBuddyPath
 )
 
@@ -19,5 +20,5 @@ if ($SchemaPath) {
 $args += $InputFiles
 
 $invokeScript = Join-Path $PSScriptRoot 'invoke-valbuddy.ps1'
-& $invokeScript -Arguments $args -ValBuddyPath $ValBuddyPath
+& $invokeScript -Arguments $args -Offline:$Offline -ValBuddyPath $ValBuddyPath
 exit $LASTEXITCODE

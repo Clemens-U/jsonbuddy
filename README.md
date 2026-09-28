@@ -5,7 +5,7 @@ JSONBuddy can be used to create and modify JSON content or JSON Schema files, an
 
 # ValBuddy CLI Agent Plugin
 
-The installable `valbuddy-cli` plugin is isolated from the other repository content under [`plugins/valbuddy-cli`](plugins/valbuddy-cli/). It provides AI coding agents with deterministic command-line workflows for JSON Schema validation, XML/XSD validation, well-formedness checks, JSON formatting, and self-contained HTML documentation generation from JSON Schema.
+The installable `valbuddy-cli` plugin is isolated from the other repository content under [`plugins/valbuddy-cli`](plugins/valbuddy-cli/). Its core functionality is permanently free, local JSON, JSON Schema, and XML validation on Windows. Optional advanced operations have separate license requirements.
 
 Plugin entry points:
 
@@ -13,6 +13,8 @@ Plugin entry points:
 - [`plugins/valbuddy-cli/skills/valbuddy-cli/SKILL.md`](plugins/valbuddy-cli/skills/valbuddy-cli/SKILL.md)
 - [`plugins/valbuddy-cli/README.md`](plugins/valbuddy-cli/README.md)
 - [`plugins/valbuddy-cli/LICENSE`](plugins/valbuddy-cli/LICENSE)
+- [`.github/plugin/marketplace.json`](.github/plugin/marketplace.json)
+- [`MARKETPLACE.md`](MARKETPLACE.md)
 
 For local testing with GitHub Copilot CLI from the repository root:
 
@@ -20,10 +22,12 @@ For local testing with GitHub Copilot CLI from the repository root:
 copilot --plugin-dir ./plugins/valbuddy-cli
 ```
 
-After the plugin is accepted into the Awesome Copilot marketplace, install it with:
+Install it from the first-party JSONBuddy marketplace:
 
 ```powershell
-copilot plugin install valbuddy-cli@awesome-copilot
+copilot plugin marketplace add Clemens-U/jsonbuddy
+copilot plugin install valbuddy-cli@jsonbuddy
+copilot plugin list
 ```
 
 The skill can also be installed directly into Codex from its new repository path:

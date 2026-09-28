@@ -1,13 +1,13 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "valbuddy-cli",
-  "description": "Deterministic JSON, JSON Schema, and XML validation plus self-contained JSON Schema HTML documentation for AI coding agents using the JSONBuddy and XML ValidatorBuddy command-line validator.",
-  "version": "1.0.0",
+  "description": "Permanently free local JSON, JSON Schema, and XML validation for AI coding agents on Windows using valbuddy.exe.",
+  "version": "1.0.1",
   "author": {
     "name": "Clemens Uhlenhut",
     "url": "https://www.json-buddy.com/"
   },
-  "homepage": "https://www.json-buddy.com/",
+  "homepage": "https://www.json-buddy.com/json-validator-command-line-tool.htm",
   "repository": "https://github.com/Clemens-U/jsonbuddy",
   "license": "MIT",
   "keywords": [

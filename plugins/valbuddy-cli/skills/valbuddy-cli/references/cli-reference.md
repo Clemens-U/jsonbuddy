@@ -3,7 +3,7 @@
 ## Invocation
 
 ```text
-valbuddy.exe [-v | -wf [-verbose] [-s] <file 1> ... <file n>]
+valbuddy.exe [-offline] [-v | -wf [-verbose] [-s] <file 1> ... <file n>]
  | [<settings-xml>]
  | -patch <patches.json> <file 1> ... <file n>
  | -jsl [-ox <output.xml> | -oj <output.json>] <json-schema.json>
@@ -21,6 +21,7 @@ valbuddy.exe [-v | -wf [-verbose] [-s] <file 1> ... <file n>]
 - `-wf`: run well-formed check.
 - `-verbose`: print detailed errors.
 - `-s`: validate against schema. In `-v/-wf`, first file after `-s` is schema path.
+- `-offline`: opt-in native network-denial policy. Local inputs and local reference graphs are allowed; a remote dependency is rejected before connection. Settings-XML batches (including XSLT), `-jst`, `-jsts`, and `-dsigverify` are disabled in this mode.
 - `<settings-xml>`: run batch settings XML (free license restriction applies).
 - `-patch`: apply JSON Patch (free license restriction applies).
 - `-jsl`: JSON Schema linter (free license restriction applies).
@@ -35,6 +36,7 @@ valbuddy.exe [-v | -wf [-verbose] [-s] <file 1> ... <file n>]
 
 - `0`: success.
 - `-1`: any file not valid, not well-formed, or no schema assigned.
+- `12`: offline mode blocked a network-capable resource or fail-closed operation.
 - `2`: invalid `-jsdoc` arguments, output extension, remote input, or input/output path combination.
 - `9`: free-version `-jsdoc` input is not smaller than 50 KB.
 - `701`: unable to access or load the JSON Schema input.
@@ -42,6 +44,10 @@ valbuddy.exe [-v | -wf [-verbose] [-s] <file 1> ... <file n>]
 - `703`: unable to generate valid UTF-8 documentation.
 - `704`: unable to write the documentation output.
 - Any other non-zero: failure; treat as failed run.
+
+## Offline wrapper parameter
+
+Every PowerShell wrapper accepts `-Offline` and forwards native `-offline`. The wrapper does not enforce the boundary itself. The executable reports the blocked URI and returns `12`; host sandboxing and outbound firewall rules remain useful defense in depth. `run-settings.ps1 -Offline` forwards the switch, and the native executable rejects settings-XML execution with exit code `12`.
 
 ## License Flags
 

@@ -1,7 +1,7 @@
 ﻿# ValBuddy CLI Contract v1
 
 Status: Approved
-Version: 1.1.0
+Version: 1.2.0
 Effective date: 2026-08-19
 Executable: `valbuddy.exe`
 Products: XML ValidatorBuddy, JSONBuddy
@@ -36,7 +36,7 @@ This contract does not define GUI behavior.
 `valbuddy.exe` SHALL support the following invocation forms:
 
 ```text
-valbuddy.exe [-v | -wf [-verbose] [-s] <file 1> ... <file n>]
+valbuddy.exe [-offline] [-v | -wf [-verbose] [-s] <file 1> ... <file n>]
  | [<settings-xml>]
  | -patch <patches.json> <file 1> ... <file n>
  | -jsl [-ox <output.xml> | -oj <output.json>] <json-schema.json>
@@ -108,6 +108,16 @@ Starting `valbuddy.exe` with no arguments SHALL print usage/options text.
 - `-config <configuration.json>`: Provide JSON-to-CSV conversion configuration.
 - `-o <output>`: Provide the HTML output path for `-jsdoc` or CSV output path for `-j2csv`.
 
+### 4.5 Offline Policy
+
+- `-offline` is an opt-in, process-wide native policy available with every invocation form.
+- Local input files and local relative or absolute reference graphs remain permitted.
+- HTTP, HTTPS, loopback, private-network URLs, UNC shares, mapped network drives, reparse-point paths, remote `file:` URIs, and other non-local URI schemes are rejected before a connection attempt.
+- Remote JSON Schema references, XSD imports/includes, XML DTDs/entities, catalogs, web-service tasks, and direct remote inputs are rejected with a diagnostic identifying the blocked resource.
+- Settings-XML batch execution (including XSLT), configured schema tests (`-jst`), official suite runs (`-jsts`), and signature verification (`-dsigverify`) are disabled under `-offline`. Those modes can use broad configured or third-party resource paths that cannot all be constrained without modifying third-party libraries.
+- `-offline` suppresses native update, telemetry, remote-catalog refresh, and license-network activity reachable from this CLI. The audited CLI currently performs no update, telemetry, remote refresh, or online license call.
+- Wrapper scripts only forward this switch; native `valbuddy.exe` is the enforcement boundary. Host sandboxing and firewall controls remain recommended defense in depth.
+
 ## 5. Argument and Parsing Rules
 
 - Option names are case-insensitive.
@@ -123,6 +133,7 @@ Starting `valbuddy.exe` with no arguments SHALL print usage/options text.
 
 - `0`: Successful processing.
 - `-1`: Any file is not valid, not well-formed, or has no schema assigned.
+- `12`: Offline mode blocked a network-capable resource or disabled an operation whose resource resolution cannot be safely constrained.
 
 Additional non-zero codes MAY exist for runtime/license/usage failures.
 For automation compatibility, callers MUST treat any non-zero code as failure.
@@ -191,6 +202,7 @@ Each release SHALL run smoke tests for:
 - `-s` schema-path behavior in `-v/-wf` flow
 - `-patch`, `-jsl`, `-jsdoc`, `-jspp`, `-jsm`, `-jst`, `-jsv`, `-j2csv`
 - `<settings-xml>` batch execution
+- offline local-reference success, direct and nested remote-resource rejection, zero recorder requests, and exit code `12`
 - unknown option usage error
 - exit code assertions (`0`, `-1`, and generic non-zero failures)
 

@@ -1,0 +1,37 @@
+{
+  "name": "jsonbuddy",
+  "owner": {
+    "name": "Clemens Uhlenhut"
+  },
+  "metadata": {
+    "description": "First-party Agent Plugins published by JSONBuddy.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "valbuddy-cli",
+      "description": "Permanently free local JSON, JSON Schema, and XML validation on Windows using valbuddy.exe.",
+      "version": "1.0.1",
+      "source": {
+        "source": "github",
+        "repo": "Clemens-U/jsonbuddy",
+        "ref": "valbuddy-cli-v1.0.1",
+        "path": "plugins/valbuddy-cli"
+      },
+      "author": {
+        "name": "Clemens Uhlenhut"
+      },
+      "homepage": "https://www.json-buddy.com/json-validator-command-line-tool.htm",
+      "repository": "https://github.com/Clemens-U/jsonbuddy",
+      "license": "MIT",
+      "keywords": [
+        "json",
+        "json-schema",
+        "xml",
+        "validation",
+        "windows"
+      ],
+      "category": "Developer Tools"
+    }
+  ]
+}

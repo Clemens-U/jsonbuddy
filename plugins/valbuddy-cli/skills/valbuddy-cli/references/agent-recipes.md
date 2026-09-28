@@ -12,6 +12,14 @@ $env:VALBUDDY_EXE="Z:\Software\JSONBuddy\valbuddy.exe"
 ./scripts/validate-json.ps1 -SchemaPath "D:\Schemas\library_schema.json" -InputFiles "D:\Data\library.json" -VerboseOutput
 ```
 
+To allow local reference graphs while failing on any remote dependency:
+
+```powershell
+./scripts/validate-json.ps1 -Offline -SchemaPath "D:\Schemas\library_schema.json" -InputFiles "D:\Data\library.json"
+```
+
+Offline mode is opt-in. A remote dependency produces exit code `12` and a diagnostic naming the blocked resource. The native executable provides enforcement; keep host sandboxing or firewall controls where stronger defense in depth is required.
+
 ## Verify AI-generated JSON
 
 When an agent creates or modifies JSON that has an associated JSON Schema:
@@ -38,6 +46,8 @@ The output path must end in `.html` or `.htm` and must differ from the input pat
 ./scripts/validate-xml.ps1 -SchemaPath "D:\Schemas\invoice.xsd" -InputFiles "D:\Data\invoice.xml"
 ```
 
+Add `-Offline` to reject remote XSD, DTD, entity, or catalog dependencies while retaining local includes and imports.
+
 ## Well-formedness check
 
 ```powershell
@@ -49,6 +59,8 @@ The output path must end in `.html` or `.htm` and must differ from the input pat
 ```powershell
 ./scripts/run-settings.ps1 -SettingsXml "D:\Configs\batch-settings.xml"
 ```
+
+Settings-XML batches can use broad task and third-party resource paths, so native offline mode rejects this operation instead of attempting to constrain it. Do not add `-Offline` when this operation is intentionally required; use host sandboxing or firewall policy for additional containment.
 
 ## Pretty-print JSON
 

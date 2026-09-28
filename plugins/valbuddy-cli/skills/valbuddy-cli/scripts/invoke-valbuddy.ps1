@@ -3,6 +3,7 @@ param(
     [Parameter(Mandatory = $true)]
     [string[]]$Arguments,
 
+    [switch]$Offline,
     [string]$ValBuddyPath
 )
 
@@ -40,5 +41,9 @@ function Resolve-ValBuddyPath {
 }
 
 $exe = Resolve-ValBuddyPath -ExplicitPath $ValBuddyPath
-& $exe @Arguments
+$nativeArguments = @($Arguments)
+if ($Offline -and -not ($nativeArguments -contains '-offline')) {
+    $nativeArguments = @('-offline') + $nativeArguments
+}
+& $exe @nativeArguments
 exit $LASTEXITCODE

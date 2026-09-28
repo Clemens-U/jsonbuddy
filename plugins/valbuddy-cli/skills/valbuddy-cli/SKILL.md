@@ -1,6 +1,6 @@
 ---
 name: valbuddy-cli
-description: Use ValBuddy CLI (`valbuddy.exe`) for deterministic XML/JSON validation, JSON Schema checks and HTML documentation generation, verification of AI-generated JSON, JSON patch/lint/format/minify, JSON Schema tests, JSON-to-CSV conversion, and settings-XML batch automation on Windows. Trigger when a user asks to validate XML or JSON, generate documentation from a JSON Schema, verify AI-generated JSON against a schema, enforce schema validation in CI, run command-line batch jobs, or automate JSON quality checks with XML ValidatorBuddy or JSONBuddy.
+description: Use ValBuddy CLI (`valbuddy.exe`) for permanently free local XML/JSON validation, JSON Schema checks, verification of AI-generated JSON, and JSON minification on Windows. Also supports license-dependent JSON Schema documentation, patching, linting, pretty-printing, schema tests, JSON-to-CSV conversion, and settings-XML automation. Trigger when a user asks to validate XML or JSON, verify JSON against a schema, enforce schema validation in CI, generate JSON Schema documentation, or automate JSON quality checks with XML ValidatorBuddy or JSONBuddy.
 ---
 
 # ValBuddy CLI Skill
@@ -15,6 +15,7 @@ Use this skill to run `valbuddy.exe` reliably in AI coding-agent validation and 
 4. Use scripts in `scripts/` instead of rebuilding command strings each time.
 5. Treat exit code `0` as success and any non-zero as failure.
 6. For `-s` in `-v/-wf` mode, pass schema path first, then input files.
+7. When the user requires no network access, pass `-Offline` to the wrapper. This forwards native `-offline` enforcement.
 
 ## Resolve Tool Path
 
@@ -27,10 +28,14 @@ Prefer this order:
 
 ## Core Workflow
 
-1. Identify job type: XML/JSON validation, JSON Schema documentation, formatting/minification, patching, schema test, conversion, or settings batch.
+1. Identify the job type. Local XML/JSON validation and well-formedness checks are the permanently free core workflows.
 2. Run a script from `scripts/`.
 3. Check process exit code.
 4. If failure, include stderr/stdout details and command used.
+
+## Additional Workflows and License Limits
+
+JSON Schema documentation, pretty-printing, patching, linting, schema tests, JSON-to-CSV conversion, settings-XML automation, and large-data streaming validation have the limits documented in `references/cli-reference.md`. Mention the applicable limitation before invoking one of these operations.
 
 ## Script Catalog
 
@@ -40,6 +45,8 @@ Prefer this order:
 - `scripts/generate-schema-docs.ps1`: generate self-contained HTML documentation from a local JSON Schema.
 - `scripts/run-settings.ps1`: run `<settings-xml>` batch jobs.
 - `scripts/format-json.ps1`: pretty-print (`-jspp`) or minify (`-jsm`).
+
+All wrappers accept `-Offline`. It is opt-in and permits local relative or absolute reference graphs. A remote dependency fails with exit code `12` and a diagnostic naming the blocked resource. Settings-XML batches (including XSLT), configured schema tests, official suite runs, and signature verification are disabled offline because their broad resource paths cannot all be constrained without modifying third-party libraries.
 
 ## References
 
@@ -54,3 +61,4 @@ Prefer this order:
 - Do not parse human-readable console text as API.
 - Rely on exit codes and output files.
 - Mention license constraints when calling restricted modes.
+- Do not present wrapper argument checking as the offline boundary. The native executable enforces it; host sandboxing and firewall controls remain useful defense in depth.
